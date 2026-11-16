@@ -1,10 +1,12 @@
-# ------------------------------------------------------------------------------------------ #
+# ------------------------------------------------------------------------
 # Title: Assignment06
-# Desc: Course registration using functions, classes, JSON, and structured error handling.
+# Desc: Course registration with functions, classes, JSON,
+#       and structured error handling.
 # Change Log: (Who, When, What)
 #   RRoot,1/1/2030,Created Starter Script
-#   Theresa Dryden,11/11/2026,Organized script into classes and static methods
-# ------------------------------------------------------------------------------------------ #
+#   Theresa Dryden,11/11/2026,Organized code into classes
+#       and static methods; wrapped long lines for readability
+# ------------------------------------------------------------------------
 import json
 
 MENU: str = '''
@@ -30,7 +32,9 @@ class IO:
         print(f"Error: {message}")
         if error is not None:
             print("-- Technical Error Message --")
-            print(type(error).__name__, str(error), sep=": ")
+            print(
+                type(error).__name__, str(error), sep=": "
+            )
 
     @staticmethod
     def output_menu(menu: str):
@@ -72,7 +76,9 @@ class IO:
         except ValueError as error:
             IO.output_error_messages("Invalid student data.", error)
         except Exception as error:
-            IO.output_error_messages("Unable to register the student.", error)
+            IO.output_error_messages(
+                "Unable to register the student.", error
+            )
 
 
 class FileProcessor:
@@ -87,17 +93,23 @@ class FileProcessor:
             if not isinstance(loaded_data, list):
                 raise ValueError("The JSON file must contain a list.")
             for student in loaded_data:
-                if not isinstance(student, dict) or not all(
-                        key in student for key in
-                        ("FirstName", "LastName", "CourseName")):
+                required_keys = ("FirstName", "LastName", "CourseName")
+            if (
+                not isinstance(student, dict)
+                or not all(key in student for key in required_keys)
+            ):
                     raise ValueError("An enrollment has missing fields.")
             student_data.extend(loaded_data)
         except FileNotFoundError as error:
             IO.output_error_messages("Enrollment file was not found.", error)
         except (ValueError, json.JSONDecodeError) as error:
-            IO.output_error_messages("Enrollment file has invalid data.", error)
+            IO.output_error_messages(
+                "Enrollment file has invalid data.", error
+            )
         except Exception as error:
-            IO.output_error_messages("Unable to read enrollment file.", error)
+            IO.output_error_messages(
+                "Unable to read enrollment file.", error
+            )
 
     @staticmethod
     def write_data_to_file(file_name: str, student_data: list):
@@ -108,9 +120,13 @@ class FileProcessor:
             print("The following data was saved to file!")
             IO.output_student_courses(student_data)
         except (OSError, TypeError, ValueError) as error:
-            IO.output_error_messages("Unable to save enrollment data.", error)
+            IO.output_error_messages(
+                "Unable to save enrollment data.", error
+            )
         except Exception as error:
-            IO.output_error_messages("Unexpected error while saving.", error)
+            IO.output_error_messages(
+                "Unexpected error while saving.", error
+            )
 
 
 # Main body: coordinate tasks without duplicating their implementation.
